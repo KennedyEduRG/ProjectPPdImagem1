@@ -1,0 +1,102 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/kennedyguerra/Área de Trabalho/Apps/Ufersa/PPdImagem/ppdproject/ppdproject.csproj": {}
+  },
+  "projects": {
+    "/home/kennedyguerra/Área de Trabalho/Apps/Ufersa/PPdImagem/ppdproject/ppdproject.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/kennedyguerra/Área de Trabalho/Apps/Ufersa/PPdImagem/ppdproject/ppdproject.csproj",
+        "projectName": "ppdproject",
+        "projectPath": "/home/kennedyguerra/Área de Trabalho/Apps/Ufersa/PPdImagem/ppdproject/ppdproject.csproj",
+        "packagesPath": "/home/kennedyguerra/.nuget/packages/",
+        "outputPath": "/home/kennedyguerra/Área de Trabalho/Apps/Ufersa/PPdImagem/ppdproject/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/kennedyguerra/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "/usr/lib/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.100"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "Avalonia": {
+              "target": "Package",
+              "version": "[11.3.0, )"
+            },
+            "Avalonia.Desktop": {
+              "target": "Package",
+              "version": "[11.3.0, )"
+            },
+            "Avalonia.Diagnostics": {
+              "target": "Package",
+              "version": "[11.3.0, )"
+            },
+            "Avalonia.Fonts.Inter": {
+              "target": "Package",
+              "version": "[11.3.0, )"
+            },
+            "Avalonia.ReactiveUI": {
+              "target": "Package",
+              "version": "[11.3.0, )"
+            },
+            "Avalonia.Themes.Fluent": {
+              "target": "Package",
+              "version": "[11.3.0, )"
+            },
+            "NetVips": {
+              "target": "Package",
+              "version": "[3.0.1, )"
+            },
+            "SixLabors.ImageSharp": {
+              "target": "Package",
+              "version": "[3.1.8, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.106/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

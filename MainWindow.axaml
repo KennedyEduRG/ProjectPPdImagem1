@@ -1,0 +1,35 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="ppdproject.MainWindow"
+        Title="ppdproject"
+        Width="800" Height="600">
+
+  <!-- 1. Definimos duas linhas: uma automática para os controles, outra para as imagens -->
+  <Grid RowDefinitions="Auto, *" ColumnDefinitions="*,*">
+
+    <!-- 2. Painel de botões na primeira linha -->
+    <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="0" Grid.ColumnSpan="2" Spacing="8">
+      <Button Content="Abrir Imagem 1" Click="OpenImage1_Click"/>
+      <Button Content="Abrir Imagem 2" Click="OpenImage2_Click"/>
+      <ComboBox Name="OperationComboBox" Width="150">
+        <ComboBoxItem Content="Adição"/>
+        <ComboBoxItem Content="Subtração"/>
+        <ComboBoxItem Content="Multiplicação"/>
+        <ComboBoxItem Content="Divisão"/>
+        <ComboBoxItem Content="AND"/>
+        <ComboBoxItem Content="OR"/>
+        <ComboBoxItem Content="XOR"/>
+      </ComboBox>
+      <Button Content="Aplicar" Click="ApplyOperation_Click"/>
+    </StackPanel>
+
+    <!-- 3. Área das imagens na segunda linha -->
+    <Image Name="Image1" Grid.Row="1" Grid.Column="0" Stretch="Uniform"/>
+    <Image Name="Image2" Grid.Row="1" Grid.Column="1" Stretch="Uniform"/>
+
+  </Grid>
+</Window>
