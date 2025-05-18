@@ -7,6 +7,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ppdproject.Models;
+using ppdproject.Helpers;
+using System; // Adicione este using
 
 namespace ppdproject;
 
@@ -56,6 +58,67 @@ public partial class MainWindow : Window
 
         if (result != null)
             Image2.Source = await ToBitmap(result);
+    }
+
+    private async void ApplyGeoOperation_Click(object? sender, RoutedEventArgs e)
+    {
+        if (img1 == null) return;
+
+        var geoOp = ((ComboBoxItem)GeoOperationComboBox.SelectedItem!)?.Content?.ToString();
+        Bitmap? result = null;
+        var bmp = await ToBitmap(img1);
+
+        try
+        {
+            switch (geoOp)
+            {
+                case "Rotacionar":
+                    if (float.TryParse(Param1Box.Text, out float angle))
+                        result = ImageSharpHelper.Rotate(bmp, angle);
+                    break;
+                case "Escalar":
+                    if (float.TryParse(Param1Box.Text, out float sx) && float.TryParse(Param2Box.Text, out float sy))
+                        result = ImageSharpHelper.Scale(bmp, sx, sy);
+                    break;
+                case "Espelhar Horizontal":
+                    result = ImageSharpHelper.FlipHorizontal(bmp);
+                    break;
+                case "Espelhar Vertical":
+                    result = ImageSharpHelper.FlipVertical(bmp);
+                    break;
+                case "Transladar":
+                    if (int.TryParse(Param1Box.Text, out int dx) && int.TryParse(Param2Box.Text, out int dy))
+                        result = ImageSharpHelper.Translate(bmp, dx, dy);
+                    break;
+                case "Zoom In":
+                    if (float.TryParse(Param1Box.Text, out float zin))
+                        result = ImageSharpHelper.ZoomIn(bmp, zin);
+                    break;
+                case "Zoom Out":
+                    if (float.TryParse(Param1Box.Text, out float zout))
+                        result = ImageSharpHelper.ZoomOut(bmp, zout);
+                    break;
+            }
+        }
+        catch (Exception ex)
+        {
+            await MessageBox("Erro: " + ex.Message);
+        }
+
+        if (result != null)
+            Image2.Source = result;
+    }
+
+    // Método simples para mostrar mensagem
+    private async Task MessageBox(string msg)
+    {
+        var dlg = new Window
+        {
+            Width = 300,
+            Height = 100,
+            Content = new TextBlock { Text = msg, VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center, HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center }
+        };
+        await dlg.ShowDialog(this);
     }
 
     private async Task<string?> OpenFile()

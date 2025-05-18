@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ppdproject")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0bc35f5adf225640034e17c4b9d380ed8ab995e6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3bef723759248ab3390356d9ded94d39d736d145")]
 [assembly: System.Reflection.AssemblyProductAttribute("ppdproject")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ppdproject")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

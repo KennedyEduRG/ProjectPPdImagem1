@@ -2,7 +2,9 @@ using Avalonia.Media.Imaging;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
+using System;
 using System.IO;
+using SkiaSharp;
 
 namespace ppdproject.Helpers
 {
@@ -76,21 +78,39 @@ namespace ppdproject.Helpers
         // Zoom IN com interpolação
         public static Bitmap ZoomIn(Bitmap original, float factor)
         {
+            if (factor <= 0)
+                throw new ArgumentException("O fator de zoom deve ser maior que zero.");
             using var img = ToImageSharp(original);
-            int newW = (int)(img.Width * factor);
-            int newH = (int)(img.Height * factor);
-            img.Mutate(x => x.Resize(newW, newH, KnownResamplers.Bicubic));
+            int newW = Math.Max(1, (int)(img.Width * factor));
+            int newH = Math.Max(1, (int)(img.Height * factor));
+            img.Mutate(x => x.Resize(newW, newH, KnownResamplers.NearestNeighbor));
             return ToAvaloniaBitmap(img);
         }
 
         // Zoom OUT com valor médio
         public static Bitmap ZoomOut(Bitmap original, float factor)
         {
+            if (factor <= 0)
+                throw new ArgumentException("O fator de zoom deve ser maior que zero.");
             using var img = ToImageSharp(original);
-            int newW = (int)(img.Width / factor);
-            int newH = (int)(img.Height / factor);
-            img.Mutate(x => x.Resize(newW, newH, KnownResamplers.Box));
+            int newW = Math.Max(1, (int)(img.Width / factor));
+            int newH = Math.Max(1, (int)(img.Height / factor));
+            img.Mutate(x => x.Resize(newW, newH, KnownResamplers.NearestNeighbor));
             return ToAvaloniaBitmap(img);
+        }
+
+        public static Bitmap ResizeWithSkia(Bitmap original, int newW, int newH)
+        {
+            using var ms = new MemoryStream();
+            original.Save(ms);
+            ms.Seek(0, SeekOrigin.Begin);
+            using var skiaBitmap = SKBitmap.Decode(ms);
+            using var resized = skiaBitmap.Resize(new SKImageInfo(newW, newH), SKFilterQuality.Medium);
+            using var image = SKImage.FromBitmap(resized);
+            using var outStream = new MemoryStream();
+            image.Encode(SKEncodedImageFormat.Png, 100).SaveTo(outStream);
+            outStream.Seek(0, SeekOrigin.Begin);
+            return new Bitmap(outStream);
         }
     }
 }
