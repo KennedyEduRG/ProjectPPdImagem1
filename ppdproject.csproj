@@ -36,6 +36,7 @@
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.8" />
   </ItemGroup>
 
+
   <!-- Para que todos os seus arquivos .axaml sejam compilados e incorporados -->
 
 </Project>

@@ -8,10 +8,9 @@
         Title="ppdproject"
         Width="1200" Height="1000">
 
-  <!-- 1. Definimos duas linhas: uma automática para os controles, outra para as imagens -->
-  <Grid RowDefinitions="Auto, *" ColumnDefinitions="*,*">
+  <Grid RowDefinitions="Auto,Auto, *" ColumnDefinitions="*,*">
 
-    <!-- 2. Painel de botões na primeira linha -->
+    <!-- 1. Painel de botões para operações entre imagens -->
     <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="0" Grid.ColumnSpan="2" Spacing="8">
       <Button Content="Abrir Imagem 1" Click="OpenImage1_Click"/>
       <Button Content="Abrir Imagem 2" Click="OpenImage2_Click"/>
@@ -25,24 +24,33 @@
         <ComboBoxItem Content="XOR"/>
       </ComboBox>
       <Button Content="Aplicar" Click="ApplyOperation_Click"/>
-      <!-- Novos controles para operações geométricas -->
-      <ComboBox Name="GeoOperationComboBox" Width="150">
+    </StackPanel>
+
+    <!-- 2. Painel para transformações geométricas compostas -->
+    <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="1" Grid.ColumnSpan="2" Spacing="8">
+      <ComboBox Name="GeoOperationComboBox" Width="170">
         <ComboBoxItem Content="Rotacionar"/>
         <ComboBoxItem Content="Escalar"/>
-        <ComboBoxItem Content="Espelhar Horizontal"/>
-        <ComboBoxItem Content="Espelhar Vertical"/>
+        <ComboBoxItem Content="Reflexão Horizontal"/>
+        <ComboBoxItem Content="Reflexão Vertical"/>
+        <ComboBoxItem Content="Cisalhamento"/>
         <ComboBoxItem Content="Transladar"/>
-        <ComboBoxItem Content="Zoom In"/>
-        <ComboBoxItem Content="Zoom Out"/>
+        <ComboBoxItem Content="Zoom In (Interp.)"/>
+        <ComboBoxItem Content="Zoom In (Replicação)"/>
+        <ComboBoxItem Content="Zoom Out (Valor-Médio)"/>
+        <ComboBoxItem Content="Zoom Out (Exclusão)"/>
       </ComboBox>
       <TextBox Name="Param1Box" Width="60" Watermark="Param1"/>
       <TextBox Name="Param2Box" Width="60" Watermark="Param2"/>
-      <Button Content="Aplicar Geometria" Click="ApplyGeoOperation_Click"/>
+      <Button Content="Adicionar" Click="AddTransform_Click"/>
+      <Button Content="Remover Selecionado" Click="RemoveTransform_Click"/>
+      <Button Content="Aplicar Transformações Compostas" Click="ApplyComposite_Click"/>
+      <ListBox Name="TransformListBox" Width="350" Height="60"/>
     </StackPanel>
 
-    <!-- 3. Área das imagens na segunda linha -->
-    <Image Name="Image1" Grid.Row="1" Grid.Column="0" Stretch="None"/>
-    <Image Name="Image2" Grid.Row="1" Grid.Column="1" Stretch="None"/>
+    <!-- 3. Área das imagens -->
+    <Image Name="Image1" Grid.Row="2" Grid.Column="0" Stretch="None"/>
+    <Image Name="Image2" Grid.Row="2" Grid.Column="1" Stretch="None"/>
 
   </Grid>
 </Window>

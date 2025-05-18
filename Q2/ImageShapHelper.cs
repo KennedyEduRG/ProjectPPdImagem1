@@ -5,6 +5,7 @@ using SixLabors.ImageSharp.Processing;
 using System;
 using System.IO;
 using SkiaSharp;
+using System.Numerics;
 
 namespace ppdproject.Helpers
 {
@@ -83,7 +84,7 @@ namespace ppdproject.Helpers
             using var img = ToImageSharp(original);
             int newW = Math.Max(1, (int)(img.Width * factor));
             int newH = Math.Max(1, (int)(img.Height * factor));
-            img.Mutate(x => x.Resize(newW, newH, KnownResamplers.NearestNeighbor));
+            img.Mutate(x => x.Resize(newW, newH, KnownResamplers.Bicubic));
             return ToAvaloniaBitmap(img);
         }
 
@@ -95,7 +96,7 @@ namespace ppdproject.Helpers
             using var img = ToImageSharp(original);
             int newW = Math.Max(1, (int)(img.Width / factor));
             int newH = Math.Max(1, (int)(img.Height / factor));
-            img.Mutate(x => x.Resize(newW, newH, KnownResamplers.NearestNeighbor));
+            img.Mutate(x => x.Resize(newW, newH, KnownResamplers.Box));
             return ToAvaloniaBitmap(img);
         }
 
@@ -111,6 +112,58 @@ namespace ppdproject.Helpers
             image.Encode(SKEncodedImageFormat.Png, 100).SaveTo(outStream);
             outStream.Seek(0, SeekOrigin.Begin);
             return new Bitmap(outStream);
+        }
+
+        public static Bitmap Shear(Bitmap original, float shearX, float shearY)
+        {
+            using var img = ToImageSharp(original);
+
+            var matrix = new SixLabors.ImageSharp.Processing.AffineTransformBuilder()
+                .AppendMatrix(new Matrix3x2(
+                    1, shearY,
+                    shearX, 1,
+                    0, 0
+                ));
+
+            img.Mutate(x => x.Transform(matrix));
+            return ToAvaloniaBitmap(img);
+        }
+
+        public static Bitmap ApplyComposite(Bitmap original, params Func<Bitmap, Bitmap>[] transforms)
+        {
+            Bitmap current = original;
+            foreach (var t in transforms)
+            {
+                var next = t(current);
+                if (!ReferenceEquals(current, original))
+                    current.Dispose();
+                current = next;
+            }
+            return current;
+        }
+
+        // Zoom IN com replicação
+        public static Bitmap ZoomInReplicacao(Bitmap original, float factor)
+        {
+            if (factor <= 0)
+                throw new ArgumentException("O fator de zoom deve ser maior que zero.");
+            using var img = ToImageSharp(original);
+            int newW = Math.Max(1, (int)(img.Width * factor));
+            int newH = Math.Max(1, (int)(img.Height * factor));
+            img.Mutate(x => x.Resize(newW, newH, KnownResamplers.NearestNeighbor));
+            return ToAvaloniaBitmap(img);
+        }
+
+        // Zoom OUT com exclusão
+        public static Bitmap ZoomOutExclusao(Bitmap original, float factor)
+        {
+            if (factor <= 0)
+                throw new ArgumentException("O fator de zoom deve ser maior que zero.");
+            using var img = ToImageSharp(original);
+            int newW = Math.Max(1, (int)(img.Width / factor));
+            int newH = Math.Max(1, (int)(img.Height / factor));
+            img.Mutate(x => x.Resize(newW, newH, KnownResamplers.NearestNeighbor));
+            return ToAvaloniaBitmap(img);
         }
     }
 }
