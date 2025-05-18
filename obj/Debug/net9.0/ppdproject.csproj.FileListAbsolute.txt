@@ -71,3 +71,4 @@
 /home/kennedyguerra/Área de Trabalho/Apps/Ufersa/PPdImagem/ppdproject/bin/Debug/net9.0/ReactiveUI.dll
 /home/kennedyguerra/Área de Trabalho/Apps/Ufersa/PPdImagem/ppdproject/bin/Debug/net9.0/Splat.dll
 /home/kennedyguerra/Área de Trabalho/Apps/Ufersa/PPdImagem/ppdproject/bin/Debug/net9.0/System.Reactive.dll
+/home/kennedyguerra/Área de Trabalho/Apps/Ufersa/PPdImagem/ppdproject/obj/Debug/net9.0/ppdproject.sourcelink.json
