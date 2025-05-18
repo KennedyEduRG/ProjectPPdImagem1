@@ -26,7 +26,7 @@
       <Button Content="Aplicar" Click="ApplyOperation_Click"/>
     </StackPanel>
 
-    <!-- 2. Painel para transformações geométricas compostas -->
+    <!-- 2. Painel para transformações geométricas -->
     <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="1" Grid.ColumnSpan="2" Spacing="8">
       <ComboBox Name="GeoOperationComboBox" Width="170">
         <ComboBoxItem Content="Rotacionar"/>
@@ -43,9 +43,7 @@
       <TextBox Name="Param1Box" Width="60" Watermark="Param1"/>
       <TextBox Name="Param2Box" Width="60" Watermark="Param2"/>
       <Button Content="Adicionar" Click="AddTransform_Click"/>
-      <Button Content="Remover Selecionado" Click="RemoveTransform_Click"/>
-      <Button Content="Aplicar Transformações Compostas" Click="ApplyComposite_Click"/>
-      <ListBox Name="TransformListBox" Width="350" Height="60"/>
+      <Button Content="Resetar" Click="ResetImage_Click"/>
     </StackPanel>
 
     <!-- 3. Área das imagens -->
