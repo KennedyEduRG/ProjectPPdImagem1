@@ -27,7 +27,7 @@ public partial class MainWindow : Window
         {
             img1 = ImageUtils.LoadImage(path);
             Image1.Source = await ToBitmap(img1);
-            imgTransformada = null; // limpa o estado acumulado
+            imgTransformada = null;
         }
     }
 
@@ -81,11 +81,9 @@ public partial class MainWindow : Window
         var p1 = Param1Box.Text;
         var p2 = Param2Box.Text;
 
-        // Usa a última imagem transformada, ou a original se for a primeira vez
         Bitmap current = imgTransformada ?? await ToBitmap(img1!);
         Bitmap? result = null;
 
-        // Checagem de parâmetros obrigatórios
         switch (op)
         {
             case "Rotacionar":
@@ -161,7 +159,6 @@ public partial class MainWindow : Window
         }
     }
 
-    // Método simples para mostrar mensagem
     private async Task MessageBox(string msg)
     {
         var dlg = new Window

@@ -11,7 +11,6 @@ namespace ppdproject.Helpers
 {
     public static class ImageSharpHelper
     {
-        // Converte de Bitmap Avalonia para ImageSharp
         private static Image<Rgba32> ToImageSharp(Bitmap bitmap)
         {
             using var ms = new MemoryStream();
@@ -20,7 +19,6 @@ namespace ppdproject.Helpers
             return Image.Load<Rgba32>(ms);
         }
 
-        // Converte de ImageSharp para Bitmap Avalonia
         private static Bitmap ToAvaloniaBitmap(Image<Rgba32> image)
         {
             using var ms = new MemoryStream();
@@ -75,8 +73,6 @@ namespace ppdproject.Helpers
             ));
             return ToAvaloniaBitmap(clone);
         }
-
-        // Zoom IN com interpolação
         public static Bitmap ZoomIn(Bitmap original, float factor)
         {
             if (factor <= 0)
@@ -88,7 +84,6 @@ namespace ppdproject.Helpers
             return ToAvaloniaBitmap(img);
         }
 
-        // Zoom OUT com valor médio
         public static Bitmap ZoomOut(Bitmap original, float factor)
         {
             if (factor <= 0)
@@ -142,7 +137,6 @@ namespace ppdproject.Helpers
             return current;
         }
 
-        // Zoom IN com replicação
         public static Bitmap ZoomInReplicacao(Bitmap original, float factor)
         {
             if (factor <= 0)
@@ -154,7 +148,6 @@ namespace ppdproject.Helpers
             return ToAvaloniaBitmap(img);
         }
 
-        // Zoom OUT com exclusão
         public static Bitmap ZoomOutExclusao(Bitmap original, float factor)
         {
             if (factor <= 0)

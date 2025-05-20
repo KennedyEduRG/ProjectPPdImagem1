@@ -10,7 +10,6 @@
 
   <Grid RowDefinitions="Auto,Auto, *" ColumnDefinitions="*,*">
 
-    <!-- 1. Painel de botões para operações entre imagens -->
     <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="0" Grid.ColumnSpan="2" Spacing="8">
       <Button Content="Abrir Imagem 1" Click="OpenImage1_Click"/>
       <Button Content="Abrir Imagem 2" Click="OpenImage2_Click"/>
@@ -26,7 +25,6 @@
       <Button Content="Aplicar" Click="ApplyOperation_Click"/>
     </StackPanel>
 
-    <!-- 2. Painel para transformações geométricas -->
     <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="1" Grid.ColumnSpan="2" Spacing="8">
       <ComboBox Name="GeoOperationComboBox" Width="170">
         <ComboBoxItem Content="Rotacionar"/>
@@ -46,7 +44,6 @@
       <Button Content="Resetar" Click="ResetImage_Click"/>
     </StackPanel>
 
-    <!-- 3. Área das imagens -->
     <Image Name="Image1" Grid.Row="2" Grid.Column="0" Stretch="None"/>
     <Image Name="Image2" Grid.Row="2" Grid.Column="1" Stretch="None"/>
 
