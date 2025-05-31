@@ -158,5 +158,50 @@ namespace ppdproject.Helpers
             img.Mutate(x => x.Resize(newW, newH, KnownResamplers.NearestNeighbor));
             return ToAvaloniaBitmap(img);
         }
+
+        public static Bitmap ZoomOutValorMedio(Bitmap original, float factor)
+        {
+            if (factor <= 0)
+                throw new ArgumentException("O fator de zoom deve ser maior que zero.");
+
+            using var img = ToImageSharp(original);
+            int newW = Math.Max(1, (int)(img.Width / factor));
+            int newH = Math.Max(1, (int)(img.Height / factor));
+            var result = new Image<Rgba32>(newW, newH);
+
+            for (int y = 0; y < newH; y++)
+            {
+                for (int x = 0; x < newW; x++)
+                {
+                    int startX = (int)(x * factor);
+                    int startY = (int)(y * factor);
+                    int endX = Math.Min((int)((x + 1) * factor), img.Width);
+                    int endY = Math.Min((int)((y + 1) * factor), img.Height);
+
+                    int count = 0;
+                    int r = 0, g = 0, b = 0, a = 0;
+                    for (int yy = startY; yy < endY; yy++)
+                    {
+                        for (int xx = startX; xx < endX; xx++)
+                        {
+                            var px = img[xx, yy];
+                            r += px.R;
+                            g += px.G;
+                            b += px.B;
+                            a += px.A;
+                            count++;
+                        }
+                    }
+                    if (count > 0)
+                        result[x, y] = new Rgba32(
+                            (byte)(r / count),
+                            (byte)(g / count),
+                            (byte)(b / count),
+                            (byte)(a / count));
+                }
+            }
+
+            return ToAvaloniaBitmap(result);
+        }
     }
 }

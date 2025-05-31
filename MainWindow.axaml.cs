@@ -144,7 +144,7 @@ public partial class MainWindow : Window
                 break;
             case "Zoom Out (Valor-Médio)":
                 if (float.TryParse(p1.Replace(',', '.'), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out float zout))
-                    result = ImageSharpHelper.ZoomOut(current, zout);
+                    result = ImageSharpHelper.ZoomOutValorMedio(current, zout);
                 break;
             case "Zoom Out (Exclusão)":
                 if (float.TryParse(p1.Replace(',', '.'), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out float zoutr))
