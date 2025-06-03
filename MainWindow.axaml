@@ -8,7 +8,7 @@
         Title="ppdproject"
         Width="1200" Height="1000">
 
-  <Grid RowDefinitions="Auto,Auto, *" ColumnDefinitions="*,*">
+  <Grid RowDefinitions="Auto,Auto,*,Auto,Auto" ColumnDefinitions="*,*">
 
     <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="0" Grid.ColumnSpan="2" Spacing="8">
       <Button Content="Abrir Imagem 1" Click="OpenImage1_Click"/>
@@ -46,6 +46,34 @@
 
     <Image Name="Image1" Grid.Row="2" Grid.Column="0" Stretch="None"/>
     <Image Name="Image2" Grid.Row="2" Grid.Column="1" Stretch="None"/>
+
+    <!-- Q3 Operações como lista -->
+    <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="3" Grid.ColumnSpan="2" Spacing="8">
+      <Button Content="Abrir Imagem Q3" Click="OpenImageQ3_Click"/>
+      <ComboBox Name="Q3OperationComboBox" Width="250" SelectedIndex="0">
+        <ComboBoxItem Content="Mostrar RGB"/>
+        <ComboBoxItem Content="Mostrar CMY"/>
+        <ComboBoxItem Content="Mostrar CMYK"/>
+        <ComboBoxItem Content="Mostrar HSV"/>
+        <ComboBoxItem Content="Mostrar YUV"/>
+        <ComboBoxItem Content="Mostrar HSL"/>
+        <ComboBoxItem Content="Mostrar XYZ"/>
+        <ComboBoxItem Content="Mostrar YCbCr"/>
+        <ComboBoxItem Content="Mostrar YIQ"/>
+        <ComboBoxItem Content="Pseudocolorizar (Fatiamento)"/>
+        <ComboBoxItem Content="Pseudocolorizar (Redistribuição)"/>
+      </ComboBox>
+      <Button Content="Executar" Click="RunQ3Operation_Click"/>
+    </StackPanel>
+
+    <!-- Q3 Imagens -->
+    <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="4" Grid.ColumnSpan="2" Spacing="8">
+      <Image Name="ImageOriginalQ3" Width="256" Height="256"/>
+      <Image Name="ImageA" Width="256" Height="256"/>
+      <Image Name="ImageB" Width="256" Height="256"/>
+      <Image Name="ImageC" Width="256" Height="256"/>
+      <Image Name="ImageD" Width="256" Height="256"/>
+    </StackPanel>
 
   </Grid>
 </Window>
