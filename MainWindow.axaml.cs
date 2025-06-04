@@ -30,6 +30,7 @@ public partial class MainWindow : Window
             img1 = ImageUtils.LoadImage(path);
             Image1.Source = await ToBitmap(img1);
             imgTransformada = null;
+            ImageOriginalQ3.Source = await ToBitmap(img1); // Atualiza Q3 também!
         }
     }
 
@@ -177,7 +178,7 @@ public partial class MainWindow : Window
 
     private async void RunQ3Operation_Click(object? sender, RoutedEventArgs e)
     {
-        if (imgQ3 == null) return;
+        if (img1 == null) return;
         var selected = Q3OperationComboBox.SelectedItem as ComboBoxItem;
         if (selected == null) return;
         var op = selected.Content?.ToString();
@@ -186,7 +187,7 @@ public partial class MainWindow : Window
         {
             case "Mostrar RGB":
                 {
-                    var (r, g, b) = ColorDecomposer.DecomposeRGB(imgQ3);
+                    var (r, g, b) = ColorDecomposer.DecomposeRGB(img1);
 
                     var imgR = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
                     var imgG = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
@@ -208,7 +209,7 @@ public partial class MainWindow : Window
                 }
             case "Mostrar CMY":
                 {
-                    var (c, m, y) = ColorDecomposer.DecomposeCMY(imgQ3);
+                    var (c, m, y) = ColorDecomposer.DecomposeCMY(img1);
 
                     var imgC = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
                     var imgM = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
@@ -230,7 +231,7 @@ public partial class MainWindow : Window
                 }
             case "Mostrar CMYK":
                 {
-                    var (c, m, y, k) = ColorDecomposer.DecomposeCMYK(imgQ3);
+                    var (c, m, y, k) = ColorDecomposer.DecomposeCMYK(img1);
 
                     var imgC = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
                     var imgM = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
@@ -254,7 +255,7 @@ public partial class MainWindow : Window
                 }
             case "Mostrar HSV":
                 {
-                    var (h, s, v) = ColorDecomposer.DecomposeHSV(imgQ3);
+                    var (h, s, v) = ColorDecomposer.DecomposeHSV(img1);
 
                     var imgH = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
                     var imgS = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
@@ -276,7 +277,7 @@ public partial class MainWindow : Window
                 }
             case "Mostrar YUV":
                 {
-                    var (y, u, v) = ColorDecomposer.DecomposeYUV(imgQ3);
+                    var (y, u, v) = ColorDecomposer.DecomposeYUV(img1);
 
                     var imgY = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
                     var imgU = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
@@ -298,7 +299,7 @@ public partial class MainWindow : Window
                 }
             case "Mostrar HSL":
                 {
-                    var (h, s, l) = ColorDecomposer.DecomposeHSL(imgQ3);
+                    var (h, s, l) = ColorDecomposer.DecomposeHSL(img1);
 
                     var imgH = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
                     var imgS = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
@@ -320,7 +321,7 @@ public partial class MainWindow : Window
                 }
             case "Mostrar XYZ":
                 {
-                    var (xImg, yImg, zImg) = ColorDecomposer.DecomposeXYZ(imgQ3);
+                    var (xImg, yImg, zImg) = ColorDecomposer.DecomposeXYZ(img1);
 
                     var imgX = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
                     var imgY = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
@@ -342,7 +343,7 @@ public partial class MainWindow : Window
                 }
             case "Mostrar YCbCr":
                 {
-                    var (yImg, cbImg, crImg) = ColorDecomposer.DecomposeYCbCr(imgQ3);
+                    var (yImg, cbImg, crImg) = ColorDecomposer.DecomposeYCbCr(img1);
 
                     var imgY = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
                     var imgCb = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
@@ -364,7 +365,7 @@ public partial class MainWindow : Window
                 }
             case "Mostrar YIQ":
                 {
-                    var (yImg, iImg, qImg) = ColorDecomposer.DecomposeYIQ(imgQ3);
+                    var (yImg, iImg, qImg) = ColorDecomposer.DecomposeYIQ(img1);
 
                     var imgY = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
                     var imgI = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);

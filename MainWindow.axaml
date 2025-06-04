@@ -49,7 +49,6 @@
 
     <!-- Q3 Operações como lista -->
     <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="3" Grid.ColumnSpan="2" Spacing="8">
-      <Button Content="Abrir Imagem Q3" Click="OpenImageQ3_Click"/>
       <ComboBox Name="Q3OperationComboBox" Width="250" SelectedIndex="0">
         <ComboBoxItem Content="Mostrar RGB"/>
         <ComboBoxItem Content="Mostrar CMY"/>
