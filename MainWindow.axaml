@@ -8,7 +8,7 @@
         Title="ppdproject"
         Width="1200" Height="1000">
 
-  <Grid RowDefinitions="Auto,Auto,*,Auto,Auto" ColumnDefinitions="*,*">
+  <Grid RowDefinitions="Auto,Auto,*,Auto,Auto,Auto,Auto" ColumnDefinitions="*,*">
 
     <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="0" Grid.ColumnSpan="2" Spacing="8">
       <Button Content="Abrir Imagem 1" Click="OpenImage1_Click"/>
@@ -72,6 +72,79 @@
       <Image Name="ImageB" Width="256" Height="256"/>
       <Image Name="ImageC" Width="256" Height="256"/>
       <Image Name="ImageD" Width="256" Height="256"/>
+    </StackPanel>
+
+    <!-- Filtros Espaciais -->
+    <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="5" Grid.ColumnSpan="2" Spacing="8">
+      <ComboBox Name="FilterOperationComboBox" Width="250">
+        <ComboBoxItem Content="Média 3x3"/>
+        <ComboBoxItem Content="Média 5x5"/>
+        <ComboBoxItem Content="Mediana 3x3"/>
+        <ComboBoxItem Content="Mediana 5x5"/>
+        <ComboBoxItem Content="Máximo 3x3"/>
+        <ComboBoxItem Content="Mínimo 3x3"/>
+        <ComboBoxItem Content="Moda 3x3"/>
+        <ComboBoxItem Content="Kawahara"/>
+        <ComboBoxItem Content="TomitaTsuji"/>
+        <ComboBoxItem Content="NagaoMatsuyama"/>
+        <ComboBoxItem Content="Somboonkaew"/>
+        <ComboBoxItem Content="H1"/>
+        <ComboBoxItem Content="H2"/>
+        <ComboBoxItem Content="M1"/>
+        <ComboBoxItem Content="M2"/>
+        <ComboBoxItem Content="M3"/>
+        <ComboBoxItem Content="High-Boost"/>
+        <ComboBoxItem Content="Ordered Dither 2x2"/>
+        <ComboBoxItem Content="Ordered Dither 2x3"/>
+        <ComboBoxItem Content="Ordered Dither 3x3"/>
+        <ComboBoxItem Content="Floyd-Steinberg"/>
+        <ComboBoxItem Content="Rogers"/>
+        <ComboBoxItem Content="Jarvis"/>
+        <ComboBoxItem Content="Stucki"/>
+        <ComboBoxItem Content="Stevenson-Arce"/>
+        <ComboBoxItem Content="Ajuste Linear"/>
+        <ComboBoxItem Content="Negativo"/>
+        <ComboBoxItem Content="Equalização de Histograma"/>
+        <ComboBoxItem Content="Correção Gama"/>
+        <ComboBoxItem Content="Fatiamento de Bits"/>
+      </ComboBox>
+      <TextBox Name="FilterParamBox" Width="60" Watermark="Parâmetro 1"/>
+      <TextBox Name="FilterParam2Box" Width="60" Watermark="Parâmetro 2"/>
+      <Button Content="Aplicar Filtro" Click="ApplyFilter_Click"/>
+    </StackPanel>
+
+    <!-- Segmentação -->
+    <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="6" Grid.ColumnSpan="2" Spacing="8">
+      <ComboBox Name="SegmentationOperationComboBox" Width="250">
+        <ComboBoxItem Content="Ponto (T)"/>
+        <ComboBoxItem Content="Reta Horizontal"/>
+        <ComboBoxItem Content="Reta Vertical"/>
+        <ComboBoxItem Content="Reta 45"/>
+        <ComboBoxItem Content="Reta 135"/>
+        <ComboBoxItem Content="Roberts"/>
+        <ComboBoxItem Content="Roberts Cruzado"/>
+        <ComboBoxItem Content="Prewitt Gx"/>
+        <ComboBoxItem Content="Prewitt Gy"/>
+        <ComboBoxItem Content="Prewitt Magnitude"/>
+        <ComboBoxItem Content="Sobel Gx"/>
+        <ComboBoxItem Content="Sobel Gy"/>
+        <ComboBoxItem Content="Sobel Magnitude"/>
+        <ComboBoxItem Content="Kirsch"/>
+        <ComboBoxItem Content="Robinson"/>
+        <ComboBoxItem Content="Frey-Chen"/>
+        <ComboBoxItem Content="Laplaciano H1"/>
+        <ComboBoxItem Content="Laplaciano H2"/>
+        <ComboBoxItem Content="Limiar Global"/>
+        <ComboBoxItem Content="Limiar Local Média"/>
+        <ComboBoxItem Content="Limiar Local Máximo"/>
+        <ComboBoxItem Content="Limiar Local Mínimo"/>
+        <ComboBoxItem Content="Limiar Niblack"/>
+        <ComboBoxItem Content="Crescimento de Região"/>
+        <ComboBoxItem Content="Watershed"/>
+      </ComboBox>
+      <TextBox Name="SegmentationParam1Box" Width="60" Watermark="Param1"/>
+      <TextBox Name="SegmentationParam2Box" Width="60" Watermark="Param2"/>
+      <Button Content="Executar Segmentação" Click="ApplySegmentation_Click"/>
     </StackPanel>
 
   </Grid>

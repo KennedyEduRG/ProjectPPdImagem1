@@ -18,7 +18,6 @@ public partial class MainWindow : Window
     private Image<Rgba32>? img1;
     private Image<Rgba32>? img2;
     private Bitmap? imgTransformada;
-    private Image<Rgba32>? imgQ3;
 
     public MainWindow() => InitializeComponent();
 
@@ -162,20 +161,6 @@ public partial class MainWindow : Window
         }
     }
 
-    private async void OpenImageQ3_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-    {
-        var dialog = new OpenFileDialog { Filters = { new FileDialogFilter { Name = "Imagens", Extensions = { "png", "jpg", "jpeg", "bmp", "gif", "tiff", "pgm" } } } };
-        var result = await dialog.ShowAsync(this);
-        var path = result?.FirstOrDefault();
-        if (path != null)
-        {
-            imgQ3 = ImageUtils.LoadImage(path);
-            ImageOriginalQ3.Source = await ToBitmap(imgQ3);
-        }
-    }
-
-
-
     private async void RunQ3Operation_Click(object? sender, RoutedEventArgs e)
     {
         if (img1 == null) return;
@@ -189,12 +174,12 @@ public partial class MainWindow : Window
                 {
                     var (r, g, b) = ColorDecomposer.DecomposeRGB(img1);
 
-                    var imgR = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
-                    var imgG = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
-                    var imgB = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
+                    var imgR = new Image<Rgba32>(img1.Width, img1.Height);
+                    var imgG = new Image<Rgba32>(img1.Width, img1.Height);
+                    var imgB = new Image<Rgba32>(img1.Width, img1.Height);
 
-                    for (int y = 0; y < imgQ3.Height; y++)
-                    for (int x = 0; x < imgQ3.Width; x++)
+                    for (int y = 0; y < img1.Height; y++)
+                    for (int x = 0; x < img1.Width; x++)
                     {
                         imgR[x, y] = new Rgba32(r[x, y].PackedValue, 0, 0);
                         imgG[x, y] = new Rgba32(0, g[x, y].PackedValue, 0);
@@ -211,12 +196,12 @@ public partial class MainWindow : Window
                 {
                     var (c, m, y) = ColorDecomposer.DecomposeCMY(img1);
 
-                    var imgC = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
-                    var imgM = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
-                    var imgY = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
+                    var imgC = new Image<Rgba32>(img1.Width, img1.Height);
+                    var imgM = new Image<Rgba32>(img1.Width, img1.Height);
+                    var imgY = new Image<Rgba32>(img1.Width, img1.Height);
 
-                    for (int i = 0; i < imgQ3.Height; i++)
-                    for (int j = 0; j < imgQ3.Width; j++)
+                    for (int i = 0; i < img1.Height; i++)
+                    for (int j = 0; j < img1.Width; j++)
                     {
                         imgC[j, i] = new Rgba32(0, c[j, i].PackedValue, c[j, i].PackedValue); // Ciano = G+B
                         imgM[j, i] = new Rgba32(m[j, i].PackedValue, 0, m[j, i].PackedValue); // Magenta = R+B
@@ -233,13 +218,13 @@ public partial class MainWindow : Window
                 {
                     var (c, m, y, k) = ColorDecomposer.DecomposeCMYK(img1);
 
-                    var imgC = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
-                    var imgM = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
-                    var imgY = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
-                    var imgK = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
+                    var imgC = new Image<Rgba32>(img1.Width, img1.Height);
+                    var imgM = new Image<Rgba32>(img1.Width, img1.Height);
+                    var imgY = new Image<Rgba32>(img1.Width, img1.Height);
+                    var imgK = new Image<Rgba32>(img1.Width, img1.Height);
 
-                    for (int i = 0; i < imgQ3.Height; i++)
-                    for (int j = 0; j < imgQ3.Width; j++)
+                    for (int i = 0; i < img1.Height; i++)
+                    for (int j = 0; j < img1.Width; j++)
                     {
                         imgC[j, i] = new Rgba32(0, c[j, i].PackedValue, c[j, i].PackedValue); // Ciano
                         imgM[j, i] = new Rgba32(m[j, i].PackedValue, 0, m[j, i].PackedValue); // Magenta
@@ -257,12 +242,12 @@ public partial class MainWindow : Window
                 {
                     var (h, s, v) = ColorDecomposer.DecomposeHSV(img1);
 
-                    var imgH = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
-                    var imgS = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
-                    var imgV = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
+                    var imgH = new Image<Rgba32>(img1.Width, img1.Height);
+                    var imgS = new Image<Rgba32>(img1.Width, img1.Height);
+                    var imgV = new Image<Rgba32>(img1.Width, img1.Height);
 
-                    for (int y = 0; y < imgQ3.Height; y++)
-                    for (int x = 0; x < imgQ3.Width; x++)
+                    for (int y = 0; y < img1.Height; y++)
+                    for (int x = 0; x < img1.Width; x++)
                     {
                         imgH[x, y] = ColorFromHSV(h[x, y].PackedValue * 360.0 / 255.0, 1, 1);
                         imgS[x, y] = new Rgba32(s[x, y].PackedValue, s[x, y].PackedValue, s[x, y].PackedValue);
@@ -279,12 +264,12 @@ public partial class MainWindow : Window
                 {
                     var (y, u, v) = ColorDecomposer.DecomposeYUV(img1);
 
-                    var imgY = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
-                    var imgU = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
-                    var imgV = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
+                    var imgY = new Image<Rgba32>(img1.Width, img1.Height);
+                    var imgU = new Image<Rgba32>(img1.Width, img1.Height);
+                    var imgV = new Image<Rgba32>(img1.Width, img1.Height);
 
-                    for (int i = 0; i < imgQ3.Height; i++)
-                    for (int j = 0; j < imgQ3.Width; j++)
+                    for (int i = 0; i < img1.Height; i++)
+                    for (int j = 0; j < img1.Width; j++)
                     {
                         imgY[j, i] = new Rgba32(y[j, i].PackedValue, y[j, i].PackedValue, y[j, i].PackedValue);
                         imgU[j, i] = new Rgba32(0, u[j, i].PackedValue, u[j, i].PackedValue); // Azul-verde
@@ -301,12 +286,12 @@ public partial class MainWindow : Window
                 {
                     var (h, s, l) = ColorDecomposer.DecomposeHSL(img1);
 
-                    var imgH = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
-                    var imgS = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
-                    var imgL = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
+                    var imgH = new Image<Rgba32>(img1.Width, img1.Height);
+                    var imgS = new Image<Rgba32>(img1.Width, img1.Height);
+                    var imgL = new Image<Rgba32>(img1.Width, img1.Height);
 
-                    for (int y = 0; y < imgQ3.Height; y++)
-                    for (int x = 0; x < imgQ3.Width; x++)
+                    for (int y = 0; y < img1.Height; y++)
+                    for (int x = 0; x < img1.Width; x++)
                     {
                         imgH[x, y] = ColorFromHSV(h[x, y].PackedValue * 360.0 / 255.0, 1, 1);
                         imgS[x, y] = new Rgba32(s[x, y].PackedValue, s[x, y].PackedValue, s[x, y].PackedValue);
@@ -323,12 +308,12 @@ public partial class MainWindow : Window
                 {
                     var (xImg, yImg, zImg) = ColorDecomposer.DecomposeXYZ(img1);
 
-                    var imgX = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
-                    var imgY = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
-                    var imgZ = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
+                    var imgX = new Image<Rgba32>(img1.Width, img1.Height);
+                    var imgY = new Image<Rgba32>(img1.Width, img1.Height);
+                    var imgZ = new Image<Rgba32>(img1.Width, img1.Height);
 
-                    for (int y = 0; y < imgQ3.Height; y++)
-                    for (int x = 0; x < imgQ3.Width; x++)
+                    for (int y = 0; y < img1.Height; y++)
+                    for (int x = 0; x < img1.Width; x++)
                     {
                         imgX[x, y] = new Rgba32(xImg[x, y].PackedValue, 0, 0);
                         imgY[x, y] = new Rgba32(0, yImg[x, y].PackedValue, 0);
@@ -345,12 +330,12 @@ public partial class MainWindow : Window
                 {
                     var (yImg, cbImg, crImg) = ColorDecomposer.DecomposeYCbCr(img1);
 
-                    var imgY = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
-                    var imgCb = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
-                    var imgCr = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
+                    var imgY = new Image<Rgba32>(img1.Width, img1.Height);
+                    var imgCb = new Image<Rgba32>(img1.Width, img1.Height);
+                    var imgCr = new Image<Rgba32>(img1.Width, img1.Height);
 
-                    for (int y = 0; y < imgQ3.Height; y++)
-                    for (int x = 0; x < imgQ3.Width; x++)
+                    for (int y = 0; y < img1.Height; y++)
+                    for (int x = 0; x < img1.Width; x++)
                     {
                         imgY[x, y] = new Rgba32(yImg[x, y].PackedValue, yImg[x, y].PackedValue, yImg[x, y].PackedValue);
                         imgCb[x, y] = new Rgba32(0, cbImg[x, y].PackedValue, cbImg[x, y].PackedValue);
@@ -367,12 +352,12 @@ public partial class MainWindow : Window
                 {
                     var (yImg, iImg, qImg) = ColorDecomposer.DecomposeYIQ(img1);
 
-                    var imgY = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
-                    var imgI = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
-                    var imgQ = new Image<Rgba32>(imgQ3.Width, imgQ3.Height);
+                    var imgY = new Image<Rgba32>(img1.Width, img1.Height);
+                    var imgI = new Image<Rgba32>(img1.Width, img1.Height);
+                    var imgQ = new Image<Rgba32>(img1.Width, img1.Height);
 
-                    for (int y = 0; y < imgQ3.Height; y++)
-                    for (int x = 0; x < imgQ3.Width; x++)
+                    for (int y = 0; y < img1.Height; y++)
+                    for (int x = 0; x < img1.Width; x++)
                     {
                         imgY[x, y] = new Rgba32(yImg[x, y].PackedValue, yImg[x, y].PackedValue, yImg[x, y].PackedValue);
                         imgI[x, y] = new Rgba32(iImg[x, y].PackedValue, 0, iImg[x, y].PackedValue);
@@ -387,7 +372,7 @@ public partial class MainWindow : Window
                 }
             case "Pseudocolorizar (Fatiamento)":
                 {
-                    var gray = imgQ3.CloneAs<L8>();
+                    var gray = img1.CloneAs<L8>();
                     var slices = new List<(byte, byte, Rgba32)>
                     {
                         (0, 60, new Rgba32(160,57,0)),
@@ -404,7 +389,7 @@ public partial class MainWindow : Window
                 }
             case "Pseudocolorizar (Redistribuição)":
                 {
-                    var pseudo = PseudoColorizer.RedistributeColors(imgQ3);
+                    var pseudo = PseudoColorizer.RedistributeColors(img1);
                     ImageA.Source = await ToBitmap(pseudo);
                     ImageB.Source = null;
                     ImageC.Source = null;
@@ -412,6 +397,131 @@ public partial class MainWindow : Window
                     break;
                 }
         }
+    }
+
+    private async void ApplyFilter_Click(object? sender, RoutedEventArgs e)
+    {
+        if (img1 == null) return;
+        var selected = FilterOperationComboBox.SelectedItem as ComboBoxItem;
+        if (selected == null) return;
+        var op = selected.Content?.ToString();
+        var param1 = FilterParamBox.Text;
+        var param2 = FilterParam2Box.Text;
+        Image<Rgba32>? result = null;
+
+        switch (op)
+        {
+            case "Média 3x3": result = ImageFilteringOps.Mean(img1, 3); break;
+            case "Média 5x5": result = ImageFilteringOps.Mean(img1, 5); break;
+            case "Mediana 3x3": result = ImageFilteringOps.Median(img1, 3); break;
+            case "Mediana 5x5": result = ImageFilteringOps.Median(img1, 5); break;
+            case "Máximo 3x3": result = ImageFilteringOps.Maximum(img1, 3); break;
+            case "Mínimo 3x3": result = ImageFilteringOps.Minimum(img1, 3); break;
+            case "Moda 3x3": result = ImageFilteringOps.Mode(img1, 3); break;
+            case "Kawahara": result = ImageFilteringOps.Kawahara(img1); break;
+            case "TomitaTsuji": result = ImageFilteringOps.TomitaTsuji(img1); break;
+            case "NagaoMatsuyama": result = ImageFilteringOps.NagaoMatsuyama(img1); break;
+            case "Somboonkaew": result = ImageFilteringOps.Somboonkaew(img1); break;
+            case "H1": result = ImageFilteringOps.HighPassH1(img1); break;
+            case "H2": result = ImageFilteringOps.HighPassH2(img1); break;
+            case "M1": result = ImageFilteringOps.HighPassM1(img1); break;
+            case "M2": result = ImageFilteringOps.HighPassM2(img1); break;
+            case "M3": result = ImageFilteringOps.HighPassM3(img1); break;
+            case "High-Boost":
+                if (float.TryParse(param1, out float a))
+                    result = ImageFilteringOps.HighBoost(img1, a);
+                break;
+            case "Ordered Dither 2x2": result = ImageFilteringOps.OrderedDither2x2(img1); break;
+            case "Ordered Dither 2x3": result = ImageFilteringOps.OrderedDither2x3(img1); break;
+            case "Ordered Dither 3x3": result = ImageFilteringOps.OrderedDither3x3(img1); break;
+            case "Floyd-Steinberg": result = ImageFilteringOps.FloydSteinbergDither(img1); break;
+            case "Rogers": result = ImageFilteringOps.RogersDither(img1); break;
+            case "Jarvis": result = ImageFilteringOps.JarvisJudiceNinkeDither(img1); break;
+            case "Stucki": result = ImageFilteringOps.StuckiDither(img1); break;
+            case "Stevenson-Arce": result = ImageFilteringOps.StevensonArceDither(img1); break;
+            case "Ajuste Linear":
+                if (float.TryParse(param1, out float linearA) && float.TryParse(param2, out float b))
+                    result = ImageLinearNonLinearOps.LinearTransform(img1, linearA, b);
+                    break;
+
+            case "Negativo": result = ImageLinearNonLinearOps.Negative(img1); break;
+            case "Equalização de Histograma": result = ImageLinearNonLinearOps.HistogramEqualization(img1); break;
+            case "Correção Gama":
+                if (float.TryParse(param1, out float gamma))
+                    result = ImageLinearNonLinearOps.GammaCorrection(img1, gamma);
+                    break;
+            case "Fatiamento de Bits":
+                if (int.TryParse(param1, out int bitStart) && int.TryParse(param2, out int bitEnd))
+                    result = ImageLinearNonLinearOps.BitSlicing(img1, bitStart, bitEnd);
+                break;
+        }
+        if (result != null)
+            Image2.Source = await ToBitmap(result);
+    }
+
+    private async void ApplySegmentation_Click(object? sender, RoutedEventArgs e)
+    {
+        if (img1 == null) return;
+        var selected = SegmentationOperationComboBox.SelectedItem as ComboBoxItem;
+        if (selected == null) return;
+        var op = selected.Content?.ToString();
+        var p1 = SegmentationParam1Box.Text;
+        var p2 = SegmentationParam2Box.Text;
+        Image<Rgba32>? result = null;
+
+        switch (op)
+        {
+            case "Ponto (T)":
+                if (byte.TryParse(p1, out byte t))
+                    result = ImageSegmentationOps.PointDetection(img1, t);
+                break;
+            case "Reta Horizontal": result = ImageSegmentationOps.LineDetection(img1, "Horizontal"); break;
+            case "Reta Vertical": result = ImageSegmentationOps.LineDetection(img1, "Vertical"); break;
+            case "Reta 45": result = ImageSegmentationOps.LineDetection(img1, "45"); break;
+            case "Reta 135": result = ImageSegmentationOps.LineDetection(img1, "135"); break;
+            case "Roberts": result = ImageSegmentationOps.Roberts(img1); break;
+            case "Roberts Cruzado": result = ImageSegmentationOps.RobertsCross(img1); break;
+            case "Prewitt Gx": result = ImageSegmentationOps.PrewittGx(img1); break;
+            case "Prewitt Gy": result = ImageSegmentationOps.PrewittGy(img1); break;
+            case "Prewitt Magnitude": result = ImageSegmentationOps.PrewittMag(img1); break;
+            case "Sobel Gx": result = ImageSegmentationOps.SobelGx(img1); break;
+            case "Sobel Gy": result = ImageSegmentationOps.SobelGy(img1); break;
+            case "Sobel Magnitude": result = ImageSegmentationOps.SobelMag(img1); break;
+            case "Kirsch": result = ImageSegmentationOps.Kirsch(img1); break;
+            case "Robinson": result = ImageSegmentationOps.Robinson(img1); break;
+            case "Frey-Chen": result = ImageSegmentationOps.FreyChen(img1); break;
+            case "Laplaciano H1": result = ImageSegmentationOps.LaplacianH1(img1); break;
+            case "Laplaciano H2": result = ImageSegmentationOps.LaplacianH2(img1); break;
+            case "Limiar Global":
+                if (byte.TryParse(p1, out byte tg))
+                    result = ImageSegmentationOps.ThresholdGlobal(img1, tg);
+                break;
+            case "Limiar Local Média":
+                if (int.TryParse(p1, out int sz1))
+                    result = ImageSegmentationOps.ThresholdLocalMean(img1, sz1);
+                break;
+            case "Limiar Local Máximo":
+                if (int.TryParse(p1, out int sz2))
+                    result = ImageSegmentationOps.ThresholdLocalMax(img1, sz2);
+                break;
+            case "Limiar Local Mínimo":
+                if (int.TryParse(p1, out int sz3))
+                    result = ImageSegmentationOps.ThresholdLocalMin(img1, sz3);
+                break;
+            case "Limiar Niblack":
+                if (int.TryParse(p1, out int sz4) && double.TryParse(p2.Replace(',', '.'), out double k))
+                    result = ImageSegmentationOps.ThresholdNiblack(img1, sz4, k);
+                break;
+            case "Crescimento de Região":
+                if (int.TryParse(p1, out int sx) && int.TryParse(p2, out int sy))
+                    result = ImageSegmentationOps.RegionGrowing(img1, sx, sy, 15); // threshold pode ser ajustado
+                break;
+            case "Watershed":
+                result = ImageSegmentationOps.WatershedLines(img1);
+                break;
+        }
+        if (result != null)
+            Image2.Source = await ToBitmap(result);
     }
 
     private async Task MessageBox(string msg)
