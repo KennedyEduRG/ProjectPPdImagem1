@@ -8,7 +8,6 @@ namespace ppdproject.Models
 {
     public static class ImageSegmentationOps
     {
-        // 1) Detecção de pontos (Threshold T)
         public static Image<Rgba32> PointDetection(Image<Rgba32> img, byte T)
         {
             var gray = img.CloneAs<L8>();
@@ -26,7 +25,6 @@ namespace ppdproject.Models
             return result;
         }
 
-        // 2) Detecção de retas (máscaras para cada direção)
         public static Image<Rgba32> LineDetection(Image<Rgba32> img, string direction)
         {
             int[,] mask = direction switch
@@ -40,7 +38,6 @@ namespace ppdproject.Models
             return ConvolveGray(img, mask);
         }
 
-        // 3) Detecção de bordas
         public static Image<Rgba32> Roberts(Image<Rgba32> img)
         {
             int[,] gx = { { 1, 0 }, { 0, -1 } };
@@ -85,7 +82,6 @@ namespace ppdproject.Models
             int[,] gy = { { 1, 2, 1 }, { 0, 0, 0 }, { -1, -2, -1 } };
             return EdgeMagnitude(img, gx, gy);
         }
-        // Krish, Robison, Frey-Chen: use máscaras específicas (exemplo para Krish)
         public static Image<Rgba32> Kirsch(Image<Rgba32> img)
         {
             int[][,] masks = {
@@ -117,9 +113,7 @@ namespace ppdproject.Models
             }
             return result;
         }
-        // Robison, Frey-Chen: similar, defina as máscaras e use o maior valor
 
-        // Laplaciano H1 e H2
         public static Image<Rgba32> LaplacianH1(Image<Rgba32> img)
         {
             int[,] mask = { { 0, 1, 0 }, { 1, -4, 1 }, { 0, 1, 0 } };
@@ -131,7 +125,6 @@ namespace ppdproject.Models
             return ConvolveGray(img, mask);
         }
 
-        // 4) Limiarização
         public static Image<Rgba32> ThresholdGlobal(Image<Rgba32> img, byte T)
         {
             var gray = img.CloneAs<L8>();
@@ -232,7 +225,6 @@ namespace ppdproject.Models
             return result;
         }
 
-        // 5) Segmentação de regiões: Crescimento de região (simples, 4-vizinhos)
         public static Image<Rgba32> RegionGrowing(Image<Rgba32> img, int seedX, int seedY, byte threshold)
         {
             var gray = img.CloneAs<L8>();
@@ -262,9 +254,8 @@ namespace ppdproject.Models
                     }
                 }
             }
-            // Pseudocolorir a região
             foreach (var (x, y) in region)
-                result[x, y] = new Rgba32(255, 0, 0); // vermelho para a região
+                result[x, y] = new Rgba32(255, 0, 0);
             for (int y = 0; y < img.Height; y++)
             for (int x = 0; x < img.Width; x++)
                 if (result[x, y].R == 0 && result[x, y].G == 0 && result[x, y].B == 0)
@@ -272,18 +263,12 @@ namespace ppdproject.Models
             return result;
         }
 
-        /// <summary>
-        /// Algoritmo Watershed didático: segmenta regiões e destaca linhas de contenção.
-        /// Cada região recebe uma cor diferente, linhas de watershed ficam pretas.
-        /// </summary>
         public static Image<Rgba32> WatershedLines(Image<Rgba32> img)
         {
-            // 1. Converter para tons de cinza
             var gray = img.CloneAs<L8>();
             int w = img.Width, h = img.Height;
             var gradient = new float[w, h];
 
-            // 2. Calcular gradiente (Sobel)
             int[,] gx = { { -1, 0, 1 }, { -2, 0, 2 }, { -1, 0, 1 } };
             int[,] gy = { { 1, 2, 1 }, { 0, 0, 0 }, { -1, -2, -1 } };
             for (int y = 1; y < h - 1; y++)
@@ -300,7 +285,6 @@ namespace ppdproject.Models
                 gradient[x, y] = (float)Math.Sqrt(sumx * sumx + sumy * sumy);
             }
 
-            // 3. Encontrar mínimos locais (sementes)
             int[,] labels = new int[w, h];
             int currentLabel = 1;
             for (int y = 1; y < h - 1; y++)
@@ -319,7 +303,6 @@ namespace ppdproject.Models
                     labels[x, y] = currentLabel++;
             }
 
-            // 4. Watershed por inundação (fila de prioridade)
             var queue = new SortedSet<(float grad, int x, int y)>();
             for (int y = 1; y < h - 1; y++)
             for (int x = 1; x < w - 1; x++)
@@ -346,17 +329,16 @@ namespace ppdproject.Models
                     }
                     else if (labels[nx, ny] != labels[x, y] && labels[nx, ny] != WSHED)
                     {
-                        labels[x, y] = WSHED; // Watershed line
+                        labels[x, y] = WSHED; 
                     }
                 }
             }
 
-            // 5. Colorir resultado: cada região com cor, watershed em preto
             var result = new Image<Rgba32>(w, h);
             var colors = new Dictionary<int, Rgba32>();
             var rand = new Random(0);
-            colors[0] = new Rgba32(0, 0, 0); // fundo
-            colors[WSHED] = new Rgba32(0, 0, 0); // watershed lines em preto
+            colors[0] = new Rgba32(0, 0, 0); 
+            colors[WSHED] = new Rgba32(0, 0, 0); 
             for (int i = 1; i < currentLabel; i++)
                 colors[i] = new Rgba32((byte)rand.Next(50, 255), (byte)rand.Next(50, 255), (byte)rand.Next(50, 255));
 
@@ -367,7 +349,6 @@ namespace ppdproject.Models
             return result;
         }
 
-        // Utilitários
         private static Image<Rgba32> ConvolveGray(Image<Rgba32> img, int[,] mask)
         {
             var gray = img.CloneAs<L8>();
@@ -412,21 +393,13 @@ namespace ppdproject.Models
         public static Image<Rgba32> Robinson(Image<Rgba32> img)
         {
             int[][,] masks = {
-                // North
                 new int[,] { { 1, 2, 1 }, { 0, 0, 0 }, { -1, -2, -1 } },
-                // North-East
                 new int[,] { { 2, 1, 0 }, { 1, 0, -1 }, { 0, -1, -2 } },
-                // East
                 new int[,] { { 1, 0, -1 }, { 2, 0, -2 }, { 1, 0, -1 } },
-                // South-East
                 new int[,] { { 0, -1, -2 }, { 1, 0, -1 }, { 2, 1, 0 } },
-                // South
                 new int[,] { { -1, -2, -1 }, { 0, 0, 0 }, { 1, 2, 1 } },
-                // South-West
                 new int[,] { { -2, -1, 0 }, { -1, 0, 1 }, { 0, 1, 2 } },
-                // West
                 new int[,] { { -1, 0, 1 }, { -2, 0, 2 }, { -1, 0, 1 } },
-                // North-West
                 new int[,] { { 0, 1, 2 }, { -1, 0, 1 }, { -2, -1, 0 } }
             };
 

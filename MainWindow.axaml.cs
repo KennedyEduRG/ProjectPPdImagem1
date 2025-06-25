@@ -29,7 +29,7 @@ public partial class MainWindow : Window
             img1 = ImageUtils.LoadImage(path);
             Image1.Source = await ToBitmap(img1);
             imgTransformada = null;
-            ImageOriginalQ3.Source = await ToBitmap(img1); // Atualiza Q3 também!
+            ImageOriginalQ3.Source = await ToBitmap(img1); 
         }
     }
 
@@ -514,7 +514,7 @@ public partial class MainWindow : Window
                 break;
             case "Crescimento de Região":
                 if (int.TryParse(p1, out int sx) && int.TryParse(p2, out int sy))
-                    result = ImageSegmentationOps.RegionGrowing(img1, sx, sy, 15); // threshold pode ser ajustado
+                    result = ImageSegmentationOps.RegionGrowing(img1, sx, sy, 15);
                 break;
             case "Watershed":
                 result = ImageSegmentationOps.WatershedLines(img1);
@@ -567,7 +567,6 @@ public partial class MainWindow : Window
         }
     }
 
-    // Adicione também este método utilitário para HSV/HSL:
     private Rgba32 ColorFromHSV(double hue, double saturation, double value)
     {
         int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;

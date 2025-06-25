@@ -8,7 +8,6 @@ namespace ppdproject.Models
 {
     public static class ImageFilteringOps
     {
-        // 1a. Filtro Média (NxN)
         public static Image<Rgba32> Mean(Image<Rgba32> img, int size)
         {
             int offset = size / 2;
@@ -32,7 +31,6 @@ namespace ppdproject.Models
             return result;
         }
 
-        // 1b. Filtro Mediana (NxN)
         public static Image<Rgba32> Median(Image<Rgba32> img, int size)
         {
             int offset = size / 2;
@@ -60,7 +58,6 @@ namespace ppdproject.Models
             return result;
         }
 
-        // 1c. Filtro Máximo (NxN)
         public static Image<Rgba32> Maximum(Image<Rgba32> img, int size)
         {
             int offset = size / 2;
@@ -84,7 +81,6 @@ namespace ppdproject.Models
             return result;
         }
 
-        // 1d. Filtro Mínimo (NxN)
         public static Image<Rgba32> Minimum(Image<Rgba32> img, int size)
         {
             int offset = size / 2;
@@ -108,7 +104,6 @@ namespace ppdproject.Models
             return result;
         }
 
-        // 1e. Filtro Moda (NxN)
         public static Image<Rgba32> Mode(Image<Rgba32> img, int size)
         {
             int offset = size / 2;
@@ -139,9 +134,7 @@ namespace ppdproject.Models
             return result;
         }
 
-        // 1f. Filtros com preservação de bordas
 
-        // Kawahara (janela 5x5, 9 regiões, seleciona a menor variância)
         public static Image<Rgba32> Kawahara(Image<Rgba32> img)
         {
             int[,] dx = { {0,0}, {0,2}, {0,4}, {2,0}, {2,2}, {2,4}, {4,0}, {4,2}, {4,4} };
@@ -181,7 +174,6 @@ namespace ppdproject.Models
             return result;
         }
 
-        // Tomita & Tsuji (janela 3x3, 4 regiões, menor variância)
         public static Image<Rgba32> TomitaTsuji(Image<Rgba32> img)
         {
             int[][] regions = {
@@ -225,21 +217,16 @@ namespace ppdproject.Models
             return result;
         }
 
-        // Nagao & Matsuyama (janela 5x5, 9 regiões poligonais)
         public static Image<Rgba32> NagaoMatsuyama(Image<Rgba32> img)
         {
-            // Implementação simplificada: usa 9 regiões quadradas como Kawahara
             return Kawahara(img);
         }
 
-        // Somboonkaew (janela 5x5, 13 regiões)
         public static Image<Rgba32> Somboonkaew(Image<Rgba32> img)
         {
-            // Implementação simplificada: usa Kawahara como base
             return Kawahara(img);
         }
 
-        // 2a. Filtros passa-alta H2, M1, M2, M3
         public static Image<Rgba32> HighPassH2(Image<Rgba32> img)
         {
             int[,] mask = { { 1, -2, 1 }, { -2, 5, -2 }, { 1, -2, 1 } };
@@ -283,7 +270,6 @@ namespace ppdproject.Models
             return result;
         }
 
-        // Generic convolution utility
         private static Image<Rgba32> Convolve(Image<Rgba32> img, int[,] mask, int factor = 1, int bias = 0)
         {
             int width = img.Width;
@@ -325,7 +311,6 @@ namespace ppdproject.Models
             return result;
         }
 
-        // 3a. Pontilhado Ordenado 2x3 e 3x3
         public static Image<Rgba32> OrderedDither2x3(Image<Rgba32> img)
         {
             int[,] matrix = { { 1, 4, 3 }, { 5, 2, 6 } };
@@ -375,11 +360,8 @@ namespace ppdproject.Models
             return result;
         }
 
-        // 3b. Pontilhado com difusão: Rogers, Jarvis, Stucki, Stevenson-Arce
         public static Image<Rgba32> RogersDither(Image<Rgba32> img)
         {
-            // Rogers: [0 0 0 7/16]
-            //         [3/16 5/16 1/16]
             float[,] kernel = {
                 { 0, 0, 0, 7f/16 },
                 { 3f/16, 5f/16, 1f/16, 0 }
@@ -406,7 +388,6 @@ namespace ppdproject.Models
         }
         public static Image<Rgba32> StevensonArceDither(Image<Rgba32> img)
         {
-            // Kernel para Stevenson-Arce (7x1)
             float[,] kernel = {
                 { 0, 0, 0, 0, 32f/200, 0, 0 },
                 { 12f/200, 26f/200, 30f/200, 16f/200, 12f/200, 0, 0 }
@@ -445,7 +426,6 @@ namespace ppdproject.Models
             return result;
         }
 
-        // Utilitário: Difusão de erro genérica
         private static Image<Rgba32> ErrorDiffusionDither(Image<Rgba32> img, float[,] kernel, int yOffset, int xOffset)
         {
             var gray = img.CloneAs<L8>();
@@ -485,7 +465,6 @@ namespace ppdproject.Models
             return result;
         }
 
-        // Utilitário: Variância
         private static double Variance(List<byte> vals)
         {
             double avg = vals.Average(v => v);
